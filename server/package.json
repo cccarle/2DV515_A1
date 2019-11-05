@@ -1,0 +1,17 @@
+{
+  "name": "a1_2dv515",
+  "version": "1.0.0",
+  "description": "A1 for course 2dv515, recommendation systems.",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Carl Ejnarsson",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^1.19.4",
+    "restify": "^8.4.0",
+    "restify-errors": "^8.0.1"
+  }
+}
