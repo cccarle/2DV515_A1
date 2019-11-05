@@ -10,6 +10,10 @@
   "author": "Carl Ejnarsson",
   "license": "ISC",
   "dependencies": {
+    "convert-csv-to-json": "0.0.15",
+    "csv-parser": "^2.3.1",
+    "csvtojson": "^2.0.10",
+    "neat-csv": "^5.1.0",
     "nodemon": "^1.19.4",
     "restify": "^8.4.0",
     "restify-errors": "^8.0.1"
