@@ -1,5 +1,5 @@
 import React from 'react'
-import { useGlobal } from '../store/store'
+import { useGlobal, actions } from '../store/store'
 import { makeStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormHelperText from '@material-ui/core/FormHelperText'
@@ -17,12 +17,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function UserSelect() {
-  const [globalState] = useGlobal()
-  const [selectedUser, setSelectedUser] = React.useState('')
+  const [globalState, globalActions] = useGlobal()
   const classes = useStyles()
 
   const handleChange = event => {
-    setSelectedUser(event.target.value)
+    globalActions.setSelectedUser(event.target.value)
   }
 
   return (
@@ -30,14 +29,14 @@ function UserSelect() {
       <FormControl className={classes.formControl}>
         <Select
           labelId="demo-simple-select-outlined-label"
-          value={selectedUser}
+          value={globalState.selectedUser}
           onChange={handleChange}
           displayEmpty
           className={classes.selectEmpty}
         >
           <MenuItem value="">User</MenuItem>
           {globalState.users.map(user => (
-            <MenuItem key={user.UserId} value={user.UserId}>
+            <MenuItem key={user.UserId} value={user.UserId - 1}>
               {user.Name}
             </MenuItem>
           ))}

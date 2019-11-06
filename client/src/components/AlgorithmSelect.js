@@ -1,4 +1,5 @@
 import React from 'react'
+import { useGlobal, actions } from '../store/store'
 import { makeStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormHelperText from '@material-ui/core/FormHelperText'
@@ -16,34 +17,28 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function AlgorithmSelect() {
-  const classes = useStyles()
-  const [age, setAge] = React.useState('')
+  const [globalState, globalActions] = useGlobal()
 
-  const inputLabel = React.useRef(null)
-  const [labelWidth, setLabelWidth] = React.useState(0)
-  React.useEffect(() => {
-    setLabelWidth(inputLabel.current.offsetWidth)
-  }, [])
+  const classes = useStyles()
 
   const handleChange = event => {
-    setAge(event.target.value)
+    let selectedAlgorithm = event.target.value
+    globalActions.selectAlgorithm(selectedAlgorithm)
   }
 
   return (
     <div>
       <FormControl className={classes.formControl}>
         <Select
-          ref={inputLabel}
           labelId="demo-simple-select-outlined-label"
-          value={age}
+          value={globalState.selectedAlgorithm}
           onChange={handleChange}
           displayEmpty
           className={classes.selectEmpty}
-          labelWidth={labelWidth}
         >
           <MenuItem value="">Similarity</MenuItem>
-          <MenuItem value={10}>Euclidean</MenuItem>
-          <MenuItem value={20}>Pearson</MenuItem>
+          <MenuItem value={'Euclidean'}>Euclidean</MenuItem>
+          <MenuItem value={'Pearson'}>Pearson</MenuItem>
         </Select>
         <FormHelperText>Similarity</FormHelperText>
       </FormControl>

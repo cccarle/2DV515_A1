@@ -1,15 +1,32 @@
 import React, { useState } from 'react'
 import useGlobalHook from 'use-global-hook'
-import { fetchUsers } from '../actions'
+import { fetchUsersRequest, getRecommendationsForUserRequest } from '../actions'
 
 const initialState = {
-  users: []
+  users: [],
+  selectedUser: '',
+  selectedAlgorithm: '',
+  userRecommendations: []
 }
 
 export const actions = {
   setUsers: async (store, users) => {
-    let allUsers = await fetchUsers()
+    let allUsers = await fetchUsersRequest()
     store.setState({ users: allUsers })
+  },
+  setSelectedUser: async (store, user) => {
+    store.setState({ selectedUser: user })
+  },
+  selectAlgorithm: async (store, algorithm) => {
+    store.setState({ selectedAlgorithm: algorithm })
+  },
+  getRecommendationsForUser: async (store, selectedUser, selectAlgorithm) => {
+    let recommendations = await getRecommendationsForUserRequest(
+      selectedUser,
+      selectAlgorithm
+    )
+
+    store.setState({ userRecommendations: recommendations })
   }
 }
 export const useGlobal = useGlobalHook(React, initialState, actions)

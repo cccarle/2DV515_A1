@@ -20,5 +20,6 @@
     "restify-cors-middleware": "^1.1.1",
     "restify-errors": "^8.0.1",
     "use-global-hook": "^0.1.12"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

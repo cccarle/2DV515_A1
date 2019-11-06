@@ -1,4 +1,5 @@
 import React from 'react'
+import { useGlobal, actions } from '../store/store'
 import { makeStyles } from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -17,36 +18,27 @@ const useStyles = makeStyles({
   }
 })
 
-function createData(name, calories, fat) {
-  return { name, calories, fat }
-}
-
-const rows = [
-  createData('Just My Luck', 3, 2.6022),
-  createData('You, Me and Durpee', 5, 2.4095)
-]
-
 export default function ResultsTable() {
+  const [globalState, globalActions] = useGlobal()
   const classes = useStyles()
-
   return (
     <Paper className={classes.root}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Movie</TableCell>
-            <TableCell align="right">ID</TableCell>
+            <TableCell>User</TableCell>
+            <TableCell align="right">Score</TableCell>
             <TableCell align="right">Score</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name}>
+          {globalState.userRecommendations.map(row => (
+            <TableRow key={row.User}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.User}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
+              <TableCell align="right">{row.score}</TableCell>
+              <TableCell align="right">{row.score}</TableCell>
             </TableRow>
           ))}
         </TableBody>

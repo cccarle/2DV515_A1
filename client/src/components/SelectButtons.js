@@ -1,4 +1,6 @@
 import React from 'react'
+import { useGlobal, actions } from '../store/store'
+
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
@@ -17,27 +19,48 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function SelectButtons() {
+  const [globalState, globalActions] = useGlobal()
   const classes = useStyles()
 
+  function getRecommendations() {
+    console.log('POST')
+    globalActions.getRecommendationsForUser(
+      globalState.selectedUser,
+      globalState.selectedAlgorithm
+    )
+  }
+
   return (
-    <div className={classes.container}>
-      <Button fullWidth variant="outlined" color="primary">
+    <div>
+      <Button
+        onClick={getRecommendations}
+        fullWidth
+        variant="outlined"
+        color="primary"
+      >
         <Typography variant="overline" gutterBottom>
-          Top matching users
+          Get Recommendations
         </Typography>
       </Button>
+      <div className={classes.container}>
+        <Button fullWidth variant="outlined" color="primary">
+          <Typography variant="overline" gutterBottom>
+            Top matching users
+          </Typography>
+        </Button>
 
-      <Button fullWidth variant="outlined" color="primary">
-        <Typography variant="overline" gutterBottom>
-          Recommended movies
-        </Typography>
-      </Button>
+        <Button fullWidth variant="outlined" color="primary">
+          <Typography variant="overline" gutterBottom>
+            Recommended movies
+          </Typography>
+        </Button>
 
-      <Button fullWidth variant="outlined" color="primary">
-        <Typography variant="overline" gutterBottom>
-          Recommendations, item-based
-        </Typography>
-      </Button>
+        <Button fullWidth variant="outlined" color="primary">
+          <Typography variant="overline" gutterBottom>
+            Recommendations, item-based
+          </Typography>
+        </Button>
+      </div>
     </div>
   )
 }

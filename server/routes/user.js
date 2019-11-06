@@ -31,11 +31,22 @@ module.exports = server => {
 
   server.post(`/users/euclidean`, async (req, res, next) => {
     try {
+      const { UserID } = req.body
+
       let users = await userController.fetchUsers()
+      let ratings = await userController.fetchRatings()
+      let movies = await userController.fetchMovies()
+
+      let recommendations = await userController.findTopThreeMatchForUser(
+        UserID,
+        users,
+        ratings,
+        movies
+      )
 
       res.send(200, {
-        message: `user-matches and movie-recommendations for a user(name) using euclidean`,
-        users: users
+        message: `user-matches and movie-recommendations for a ${users[UserID].Name} using euclidean`,
+        recommendations: recommendations
       })
 
       next()
@@ -65,46 +76,3 @@ module.exports = server => {
     }
   })
 }
-
-//       /*
-// Matches user to all the other users, runs euclidean to get the score and then save it to a list.
-// The list is sorted by the scores value and the list is returned with only top three matches
-// */
-
-// findTopThreeMatchForUser = (
-//     userToMatch,
-//     userData,
-//     ratingData,
-//     moviesData
-//   ) => {
-//     let scores = []
-
-//     userData.forEach(user => {
-//       if (user != userToMatch) {
-//         let score = { User: user.Name, score: '' }
-//         score.score = helpers.euclidean(
-//           userToMatch,
-//           user,
-//           ratingData,
-//           moviesData
-//         )
-//         scores.push(score)
-//       }
-//     })
-
-//     scores
-//       .sort((a, b) => parseFloat(a.score) - parseFloat(b.score))
-//       .reverse() // sort by score value
-
-//     console.log(scores)
-//     return scores.slice(0, 3)
-//   }
-
-// fetchData = async () => {
-//     let userData = await covert.convertCSVTOJSON(usersCSV)
-//     let ratingData = await covert.convertCSVTOJSON(ratingsCSV)
-//     let moviesData = await covert.convertCSVTOJSON(moviesCSV)
-//     let user1 = userData[0]
-
-//     findTopThreeMatchForUser(user1, userData, ratingData, moviesData)
-//   }
