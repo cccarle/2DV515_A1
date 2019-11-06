@@ -43,7 +43,7 @@ euclidean = (A, B, ratings) => {
   let invertedScore = 1 / (1 + sim)
 
   console.log(invertedScore.toString().slice(0, 6))
-  return invertedScore.toString().slice(0, 3)
+  return invertedScore.toString().slice(0, 6)
 }
 
 fetchData()
