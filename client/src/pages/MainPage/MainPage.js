@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useGlobal } from '../../store/store'
 import './MainPage.css'
 import { makeStyles } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -18,6 +19,16 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function MainPage() {
+  const [globalState, globalActions] = useGlobal()
+
+  useEffect(() => {
+    getUsers()
+  }, [])
+
+  async function getUsers() {
+    globalActions.setUsers()
+  }
+
   const classes = useStyles()
 
   return (
@@ -30,7 +41,6 @@ function MainPage() {
             <AlgorithmSelect />
             <ResultsInput />
           </div>
-
           <SelectButtons />
           <div>
             <ResultsTable />

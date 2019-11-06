@@ -1,6 +1,6 @@
 import React from 'react'
+import { useGlobal } from '../store/store'
 import { makeStyles } from '@material-ui/core/styles'
-import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import FormControl from '@material-ui/core/FormControl'
@@ -17,40 +17,30 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function UserSelect() {
+  const [globalState] = useGlobal()
+  const [selectedUser, setSelectedUser] = React.useState('')
   const classes = useStyles()
-  const [age, setAge] = React.useState('')
-
-  const inputLabel = React.useRef(null)
-  const [labelWidth, setLabelWidth] = React.useState(0)
-  React.useEffect(() => {
-    setLabelWidth(inputLabel.current.offsetWidth)
-  }, [])
 
   const handleChange = event => {
-    setAge(event.target.value)
+    setSelectedUser(event.target.value)
   }
 
   return (
     <div>
       <FormControl className={classes.formControl}>
         <Select
-          ref={inputLabel}
           labelId="demo-simple-select-outlined-label"
-          value={age}
+          value={selectedUser}
           onChange={handleChange}
           displayEmpty
           className={classes.selectEmpty}
-          labelWidth={labelWidth}
         >
           <MenuItem value="">User</MenuItem>
-          <MenuItem value={10}>Andy</MenuItem>
-          <MenuItem value={20}>Isabel</MenuItem>
-          <MenuItem value={30}>John</MenuItem>
-          <MenuItem value={40}>Angela</MenuItem>
-          <MenuItem value={50}>Will</MenuItem>
-          <MenuItem value={60}>Alicia</MenuItem>
-          <MenuItem value={70}>Billy</MenuItem>
-          <MenuItem value={80}>Rachel</MenuItem>
+          {globalState.users.map(user => (
+            <MenuItem key={user.UserId} value={user.UserId}>
+              {user.Name}
+            </MenuItem>
+          ))}
         </Select>
         <FormHelperText>Select User</FormHelperText>
       </FormControl>
