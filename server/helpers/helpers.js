@@ -1,3 +1,5 @@
+const userController = require('../controller/user')
+
 /* 
 Returns a array with all ratings from a user
 */
@@ -29,7 +31,13 @@ exports.getMoviesUserHasNotSeen = (user, ratings, movies) => {
 Returns a array with all users and the similarity-score against userToMatch
 */
 
-exports.findUserSimilarites = (userToMatch, users, ratings, movieIDs) => {
+exports.findUserSimilarites = (
+  userToMatch,
+  users,
+  ratings,
+  movieIDs,
+  moviesData
+) => {
   let result = []
   let wsArray = []
 
@@ -95,6 +103,7 @@ exports.findUserSimilarites = (userToMatch, users, ratings, movieIDs) => {
 
   movieWSTotalArray.forEach(element => {
     let movie = {
+      movieName: getMovieNameFromId(element.movieID, moviesData),
       movieID: element.movieID,
       total: element.totalWS / sumOfSim
     }
@@ -140,8 +149,6 @@ const euclidean = (A, B, ratings, moviesUserHasNotSeeen) => {
 
   let invertedScore = 1 / (1 + sim)
 
-  //console.log(wsArr.reduce((a, b) => ({ x: a.ws + b.ws })))
-  //console.log(invertedScore.toString().slice(0, 6))
   return invertedScore.toString().slice(0, 6)
 }
 
@@ -151,7 +158,6 @@ const getRatingsFromMoviesSelectedUserHasNotSeen = (
   ratings,
   moviesUserHasNotSeeen
 ) => {
-  let userA = getRatingsFromUser(A, ratings) // Ratings from userA
   let userB = getRatingsFromUser(B, ratings) // Ratings from userB
   let a = []
 
@@ -169,4 +175,8 @@ const getRatingsFromMoviesSelectedUserHasNotSeen = (
   })
 
   return a
+}
+
+const getMovieNameFromId = (MovieID, moviesData) => {
+  return moviesData.find(x => x.MovieId === MovieID).Title
 }

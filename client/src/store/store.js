@@ -6,7 +6,9 @@ const initialState = {
   users: [],
   selectedUser: '',
   selectedAlgorithm: '',
-  userRecommendations: []
+  userRecommendations: [],
+  movieRecommendations: [],
+  resultTableState: 'users'
 }
 
 export const actions = {
@@ -26,6 +28,10 @@ export const actions = {
       selectAlgorithm
     )
     store.setState({ userRecommendations: recommendations.simUsers })
+    store.setState({ movieRecommendations: recommendations.simMovie })
+  },
+  setResultTableState: async (store, state) => {
+    store.setState({ resultTableState: state })
   }
 }
 

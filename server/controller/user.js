@@ -42,7 +42,8 @@ exports.findTopThreeMatchForUser = (
     userToMatch1,
     userData,
     ratingData,
-    movieIDs
+    movieIDs,
+    moviesData
   )
 
   return result

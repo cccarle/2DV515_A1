@@ -21,28 +21,58 @@ const useStyles = makeStyles({
 export default function ResultsTable() {
   const [globalState, globalActions] = useGlobal()
   const classes = useStyles()
-  return (
-    <Paper className={classes.root}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>User</TableCell>
-            <TableCell align="right">Sim</TableCell>
-            <TableCell align="right">Sim</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {globalState.userRecommendations.map(row => (
-            <TableRow key={row.User}>
-              <TableCell component="th" scope="row">
-                {row.User}
-              </TableCell>
-              <TableCell align="right">{row.sim}</TableCell>
-              <TableCell align="right">{row.sim}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
-  )
+
+  function whichTableToShow() {
+    if (globalState.resultTableState === 'users') {
+      return (
+        <Paper className={classes.root}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>User</TableCell>
+                <TableCell align="right">Sim</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {globalState.userRecommendations.map(row => (
+                <TableRow key={row.User}>
+                  <TableCell component="th" scope="row">
+                    {row.User}
+                  </TableCell>
+                  <TableCell align="right">{row.sim}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      )
+    } else if (globalState.resultTableState === 'movies') {
+      console.log(globalState.movieRecommendations)
+      return (
+        <Paper className={classes.root}>
+          <Table className={classes.table} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Movie</TableCell>
+                <TableCell align="right">Movie ID</TableCell>
+                <TableCell align="right">Sim</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {globalState.movieRecommendations.map(row => (
+                <TableRow key={row.movieID}>
+                  <TableCell component="th" scope="row">
+                    {row.movieName}
+                  </TableCell>
+                  <TableCell align="right">{row.movieID}</TableCell>
+                  <TableCell align="right">{row.total}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+      )
+    }
+  }
+  return <div> {whichTableToShow()} </div>
 }
