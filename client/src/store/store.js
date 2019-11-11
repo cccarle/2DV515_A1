@@ -25,21 +25,20 @@ export const actions = {
       selectedUser,
       selectAlgorithm
     )
-
-    store.setState({ userRecommendations: recommendations })
+    store.setState({ userRecommendations: recommendations.simUsers })
   }
 }
+
 export const useGlobal = useGlobalHook(React, initialState, actions)
 
-export const LoggedInUserContext = React.createContext()
+export const GlobalContext = React.createContext()
 
 const Store = ({ children }) => {
-  const [loggedInUser, setLoggedInUser] = useState([])
-
+  const [globalState, globalActions] = useState([])
   return (
-    <LoggedInUserContext.Provider value={[loggedInUser, setLoggedInUser]}>
+    <GlobalContext.Provider value={[globalState, globalActions]}>
       {children}
-    </LoggedInUserContext.Provider>
+    </GlobalContext.Provider>
   )
 }
 

@@ -27,8 +27,8 @@ export default function ResultsTable() {
         <TableHead>
           <TableRow>
             <TableCell>User</TableCell>
-            <TableCell align="right">Score</TableCell>
-            <TableCell align="right">Score</TableCell>
+            <TableCell align="right">Sim</TableCell>
+            <TableCell align="right">Sim</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -37,8 +37,8 @@ export default function ResultsTable() {
               <TableCell component="th" scope="row">
                 {row.User}
               </TableCell>
-              <TableCell align="right">{row.score}</TableCell>
-              <TableCell align="right">{row.score}</TableCell>
+              <TableCell align="right">{row.sim}</TableCell>
+              <TableCell align="right">{row.sim}</TableCell>
             </TableRow>
           ))}
         </TableBody>

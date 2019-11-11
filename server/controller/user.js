@@ -13,7 +13,7 @@ exports.fetchRatings = async () => {
 }
 
 exports.fetchMovies = async () => {
-  return await covert.convertCSVTOJSON(ratingsCSVPath)
+  return await covert.convertCSVTOJSON(moviesCSVPath)
 }
 
 /*
@@ -26,19 +26,24 @@ exports.findTopThreeMatchForUser = (
   ratingData,
   moviesData
 ) => {
-  let scores = []
-
   let userToMatch1 = userData[userToMatch]
 
-  userData.forEach(user => {
-    if (user != userToMatch1) {
-      let score = { User: user.Name, score: '' }
-      score.score = helpers.euclidean(userToMatch1, user, ratingData)
-      scores.push(score)
-    }
+  let moviesUserNotHasSeen = helpers.getMoviesUserHasNotSeen(
+    userToMatch1,
+    ratingData,
+    moviesData
+  )
+
+  let movieIDs = moviesUserNotHasSeen.map(movie => {
+    return movie.MovieId
   })
 
-  scores.sort((a, b) => parseFloat(a.score) - parseFloat(b.score)).reverse() // sort by score value
+  let result = helpers.findUserSimilarites(
+    userToMatch1,
+    userData,
+    ratingData,
+    movieIDs
+  )
 
-  return scores.slice(0, 3)
+  return result
 }
