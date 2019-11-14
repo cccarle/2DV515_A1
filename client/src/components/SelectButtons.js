@@ -69,7 +69,7 @@ function SelectButtons() {
           </Typography>
         </Button>
 
-        <Button fullWidth variant="outlined" color="primary">
+        <Button disabled fullWidth variant="outlined" color="primary">
           <Typography variant="overline" gutterBottom>
             Recommendations, item-based
           </Typography>

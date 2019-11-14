@@ -46,20 +46,27 @@ exports.findRecommendations = (
   helpers.divideTotalWSAndTotalSimForMovie(moviesUserHasNotSeen);
 
   let recommendations = {
-    simUsers: helpers.getRecommendationsByDescendingOrder(
+    recommendedUsersEuclidean: helpers.getRecommendationsByDescendingOrderEuclidean(
       usersWithSim,
       moviesUserHasNotSeen,
       numberOfResults
     ).resultOfUsers,
-    simMovie: helpers.getRecommendationsByDescendingOrder(
+    recommendedMovieEuclidean: helpers.getRecommendationsByDescendingOrderEuclidean(
       usersWithSim,
       moviesUserHasNotSeen,
       numberOfResults
-    ).resultOfMovies
+    ).resultOfMovies,
+    recommendedUsersPearson: helpers.getRecommendationsByDescendingOrderPearson(
+      usersWithSim,
+      moviesUserHasNotSeen,
+      numberOfResults
+    ).resultOfUsersPearson,
+    recommendedMoviePearson: helpers.getRecommendationsByDescendingOrderPearson(
+      usersWithSim,
+      moviesUserHasNotSeen,
+      numberOfResults
+    ).resultOfMoviesPearson
   };
-
-  //console.log(usersWithSim);
-  // console.log(recommendations);
 
   return recommendations;
 };

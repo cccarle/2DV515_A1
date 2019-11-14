@@ -236,7 +236,7 @@ exports.divideTotalWSAndTotalSimForMovie = moviesUserHasNotSeen => {
 Returns recommendations by Descending order and number of choosen result count
  */
 
-exports.getRecommendationsByDescendingOrder = (
+exports.getRecommendationsByDescendingOrderEuclidean = (
   usersWithSim,
   moviesUserHasNotSeen,
   count
@@ -252,4 +252,28 @@ exports.getRecommendationsByDescendingOrder = (
   let resultOfMovies = moviesUserHasNotSeen.slice(0, count);
 
   return { resultOfUsers, resultOfMovies };
+};
+
+/*
+Returns recommendations by Descending order and number of choosen result count
+ */
+
+exports.getRecommendationsByDescendingOrderPearson = (
+  usersWithSim,
+  moviesUserHasNotSeen,
+  count
+) => {
+  usersWithSim
+    .sort((a, b) => parseFloat(a.pearsonSim) - parseFloat(b.pearsonSim))
+    .reverse();
+
+  let resultOfUsersPearson = usersWithSim.slice(0, count);
+
+  moviesUserHasNotSeen
+    .sort((a, b) => a.recommendationScorePearson - b.recommendationScorePearson)
+    .reverse();
+
+  let resultOfMoviesPearson = moviesUserHasNotSeen.slice(0, count);
+
+  return { resultOfUsersPearson, resultOfMoviesPearson };
 };

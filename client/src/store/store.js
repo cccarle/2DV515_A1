@@ -9,12 +9,12 @@ const initialState = {
   users: [],
   selectedUser: "",
   selectedAlgorithm: "",
-  userRecommendations: [],
-  movieRecommendations: [],
+  userRecommendationsEuclidean: [],
+  movieRecommendationsEuclidean: [],
   userRecommendationsPearson: [],
   movieRecommendationsPearson: [],
   resultTableState: "users",
-  resultCount: 0
+  resultCount: 100
 };
 
 export const actions = {
@@ -40,13 +40,17 @@ export const actions = {
       resultCount
     );
 
-    store.setState({ userRecommendations: recommendations.simUsers });
     store.setState({
-      userRecommendationsPearson: recommendations.simUsersPearson
+      userRecommendationsEuclidean: recommendations.recommendedUsersEuclidean
     });
-    store.setState({ movieRecommendations: recommendations.simMovie });
     store.setState({
-      movieRecommendationsPearson: recommendations.simMoviePearson
+      movieRecommendationsEuclidean: recommendations.recommendedMovieEuclidean
+    });
+    store.setState({
+      userRecommendationsPearson: recommendations.recommendedUsersPearson
+    });
+    store.setState({
+      movieRecommendationsPearson: recommendations.recommendedMoviePearson
     });
   },
   setResultTableState: async (store, state) => {

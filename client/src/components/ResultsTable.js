@@ -26,12 +26,12 @@ export default function ResultsTable() {
     if (globalState.selectedAlgorithm == "Euclidean") {
       return (
         <TableBody>
-          {" "}
-          {globalState.userRecommendations.map(row => (
+          {globalState.userRecommendationsEuclidean.map(row => (
             <TableRow key={row.userName}>
               <TableCell component="th" scope="row">
                 {row.userName}
               </TableCell>
+              <TableCell>{row.userID}</TableCell>
               <TableCell align="right">{row.sim}</TableCell>
             </TableRow>
           ))}
@@ -40,13 +40,13 @@ export default function ResultsTable() {
     } else if (globalState.selectedAlgorithm == "Pearson") {
       return (
         <TableBody>
-          {" "}
           {globalState.userRecommendationsPearson.map(row => (
             <TableRow key={row.userName}>
               <TableCell component="th" scope="row">
                 {row.userName}
               </TableCell>
-              <TableCell align="right">{row.pear}</TableCell>
+              <TableCell>{row.userID}</TableCell>
+              <TableCell align="right">{row.pearsonSim}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -58,7 +58,7 @@ export default function ResultsTable() {
     if (globalState.selectedAlgorithm == "Euclidean") {
       return (
         <TableBody>
-          {globalState.movieRecommendations.map(row => (
+          {globalState.movieRecommendationsEuclidean.map(row => (
             <TableRow key={row.MovieId}>
               <TableCell component="th" scope="row">
                 {row.Title}
@@ -96,6 +96,7 @@ export default function ResultsTable() {
             <TableHead>
               <TableRow>
                 <TableCell>User</TableCell>
+                <TableCell>ID</TableCell>
                 <TableCell align="right">Sim</TableCell>
               </TableRow>
             </TableHead>
