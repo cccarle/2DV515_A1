@@ -30,6 +30,7 @@ exports.findRecommendations = (
 ) => {
   let users = helpers.createUserObject(userData, ratingData);
   let selectedUser = users[userToMatch];
+  helpers.removeSelectedUserFromList(users, selectedUser);
   let usersWithSim = helpers.addSimValueForUsers(selectedUser, users);
   let moviesUserHasNotSeen = helpers.getMoviesUserHasNotSeen(
     selectedUser,
@@ -42,7 +43,6 @@ exports.findRecommendations = (
     moviesUserHasNotSeen,
     usersWithSim
   );
-
   helpers.divideTotalWSAndTotalSimForMovie(moviesUserHasNotSeen);
 
   let recommendations = {

@@ -1,15 +1,24 @@
 const algorithms = require("../helpers/algorithms");
 
+exports.removeSelectedUserFromList = (users, selectedUser) => {
+  users.splice(
+    users.findIndex(function(i) {
+      return i.userID == selectedUser.userID;
+    }),
+    1
+  );
+};
+
 /*
 Returns an array with all users and the similarity-score against selectedUser
 */
 
 exports.addSimValueForUsers = (selectedUser, users) => {
   users.forEach(user => {
-    if (user.userID != selectedUser.userID)
+    if (user.userID != selectedUser.userID) {
       user.sim = parseFloat(algorithms.euclidean(selectedUser, user));
-    user.pearsonSim = parseFloat(algorithms.pearson(selectedUser, user)); // add
-    //  console.log(user);
+      user.pearsonSim = parseFloat(algorithms.pearson(selectedUser, user)); // add
+    }
   });
 
   return users;
@@ -24,8 +33,6 @@ exports.createUserObject = (userData, ratingData) => {
     return {
       userName: user.Name,
       userID: user.UserId,
-      sim: 0,
-      pearsonSim: 0,
       moviesUserHasRated: getRatingsFromUser(user.UserId, ratingData)
     };
   });
