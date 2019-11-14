@@ -20,31 +20,29 @@ exports.fetchMovies = async () => {
  Matches user to all the other users, runs euclidean to get the score and then save it to a list.
  The list is sorted by the scores value and the list is returned with only top three matches
  */
+
 exports.findTopThreeMatchForUser = (
   userToMatch,
   userData,
   ratingData,
   moviesData
 ) => {
-  let userToMatch1 = userData[userToMatch];
-
-  let moviesUserNotHasSeen = helpers.getMoviesUserHasNotSeen(
-    userToMatch1,
+  let users = helpers.createUserObject(userData, ratingData);
+  let selectedUser = users[userToMatch];
+  let usersWithSim = helpers.addSimValueForUsers(selectedUser, users);
+  let moviesUserHasNotSeen = helpers.getMoviesUserHasNotSeen(
+    selectedUser,
     ratingData,
     moviesData
   );
 
-  let movieIDs = moviesUserNotHasSeen.map(movie => {
-    return movie.MovieId;
-  });
-
-  let recommendations = helpers.findRecommendations(
-    userToMatch1,
-    userData,
-    ratingData,
-    movieIDs,
-    moviesData
+  helpers.getTotalWSForMoviesUserHasNotSeen(moviesUserHasNotSeen, usersWithSim);
+  helpers.sumTheMoviesSimFromUsersRatedTheMovie(
+    moviesUserHasNotSeen,
+    usersWithSim
   );
 
-  return recommendations;
+  console.log(moviesUserHasNotSeen);
+
+  return [];
 };

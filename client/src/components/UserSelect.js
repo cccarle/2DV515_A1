@@ -1,10 +1,10 @@
-import React from 'react'
-import { useGlobal, actions } from '../store/store'
-import { makeStyles } from '@material-ui/core/styles'
-import MenuItem from '@material-ui/core/MenuItem'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
-import Select from '@material-ui/core/Select'
+import React from "react";
+import { useGlobal, actions } from "../store/store";
+import { makeStyles } from "@material-ui/core/styles";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -14,15 +14,15 @@ const useStyles = makeStyles(theme => ({
   selectEmpty: {
     marginTop: theme.spacing(2)
   }
-}))
+}));
 
 function UserSelect() {
-  const [globalState, globalActions] = useGlobal()
-  const classes = useStyles()
+  const [globalState, globalActions] = useGlobal();
+  const classes = useStyles();
 
   const handleChange = event => {
-    globalActions.setSelectedUser(event.target.value)
-  }
+    globalActions.setSelectedUser(event.target.value);
+  };
 
   return (
     <div>
@@ -44,7 +44,7 @@ function UserSelect() {
         <FormHelperText>Select User</FormHelperText>
       </FormControl>
     </div>
-  )
+  );
 }
 
-export default UserSelect
+export default UserSelect;
