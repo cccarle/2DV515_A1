@@ -22,6 +22,72 @@ export default function ResultsTable() {
   const [globalState, globalActions] = useGlobal();
   const classes = useStyles();
 
+  function checkWhichAlgorithmForUser() {
+    if (globalState.selectedAlgorithm == "Euclidean") {
+      return (
+        <TableBody>
+          {" "}
+          {globalState.userRecommendations.map(row => (
+            <TableRow key={row.userName}>
+              <TableCell component="th" scope="row">
+                {row.userName}
+              </TableCell>
+              <TableCell align="right">{row.sim}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      );
+    } else if (globalState.selectedAlgorithm == "Pearson") {
+      return (
+        <TableBody>
+          {" "}
+          {globalState.userRecommendationsPearson.map(row => (
+            <TableRow key={row.userName}>
+              <TableCell component="th" scope="row">
+                {row.userName}
+              </TableCell>
+              <TableCell align="right">{row.pear}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      );
+    }
+  }
+
+  function checkWhichAlgorithmForMovies() {
+    if (globalState.selectedAlgorithm == "Euclidean") {
+      return (
+        <TableBody>
+          {globalState.movieRecommendations.map(row => (
+            <TableRow key={row.MovieId}>
+              <TableCell component="th" scope="row">
+                {row.Title}
+              </TableCell>
+              <TableCell align="right">{row.MovieId}</TableCell>
+              <TableCell align="right">{row.recommendationScore}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      );
+    } else if (globalState.selectedAlgorithm == "Pearson") {
+      return (
+        <TableBody>
+          {globalState.movieRecommendationsPearson.map(row => (
+            <TableRow key={row.MovieId}>
+              <TableCell component="th" scope="row">
+                {row.Title}
+              </TableCell>
+              <TableCell align="right">{row.MovieId}</TableCell>
+              <TableCell align="right">
+                {row.recommendationScorePearson}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      );
+    }
+  }
+
   function whichTableToShow() {
     if (globalState.resultTableState === "users") {
       return (
@@ -33,16 +99,7 @@ export default function ResultsTable() {
                 <TableCell align="right">Sim</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {globalState.userRecommendations.map(row => (
-                <TableRow key={row.userName}>
-                  <TableCell component="th" scope="row">
-                    {row.userName}
-                  </TableCell>
-                  <TableCell align="right">{row.sim}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+            {checkWhichAlgorithmForUser()}
           </Table>
         </Paper>
       );
@@ -57,17 +114,7 @@ export default function ResultsTable() {
                 <TableCell align="right">Score</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {globalState.movieRecommendations.map(row => (
-                <TableRow key={row.MovieId}>
-                  <TableCell component="th" scope="row">
-                    {row.Title}
-                  </TableCell>
-                  <TableCell align="right">{row.MovieId}</TableCell>
-                  <TableCell align="right">{row.recommendationScore}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+            {checkWhichAlgorithmForMovies()}
           </Table>
         </Paper>
       );

@@ -21,7 +21,7 @@ exports.fetchMovies = async () => {
  The list is sorted by the scores value and the list is returned with only top three matches
  */
 
-exports.findRecommendationsByEuclidean = (
+exports.findRecommendations = (
   userToMatch,
   userData,
   ratingData,
@@ -57,6 +57,9 @@ exports.findRecommendationsByEuclidean = (
       numberOfResults
     ).resultOfMovies
   };
+
+  //console.log(usersWithSim);
+  // console.log(recommendations);
 
   return recommendations;
 };

@@ -37,7 +37,7 @@ module.exports = server => {
       let ratings = await userController.fetchRatings();
       let movies = await userController.fetchMovies();
 
-      let recommendations = await userController.findRecommendationsByEuclidean(
+      let recommendationsEuclidean = await userController.findRecommendations(
         UserID,
         users,
         ratings,
@@ -47,7 +47,7 @@ module.exports = server => {
 
       res.send(200, {
         message: `user-matches and movie-recommendations for a ${users[UserID].Name} using euclidean`,
-        recommendations: recommendations
+        recommendations: recommendationsEuclidean
       });
 
       next();
@@ -64,11 +64,23 @@ module.exports = server => {
 
   server.post(`/users/pearson`, async (req, res, next) => {
     try {
+      const { UserID, numberOfResults } = req.body;
+
       let users = await userController.fetchUsers();
+      let ratings = await userController.fetchRatings();
+      let movies = await userController.fetchMovies();
+
+      let recommendationsPearson = await userController.findRecommendations(
+        UserID,
+        users,
+        ratings,
+        movies,
+        numberOfResults
+      );
 
       res.send(200, {
         message: `user-matches and movie-recommendations for a user(name) using pearson`,
-        users: users
+        recommendations: recommendationsPearson
       });
 
       next();

@@ -11,6 +11,8 @@ const initialState = {
   selectedAlgorithm: "",
   userRecommendations: [],
   movieRecommendations: [],
+  userRecommendationsPearson: [],
+  movieRecommendationsPearson: [],
   resultTableState: "users",
   resultCount: 0
 };
@@ -39,7 +41,13 @@ export const actions = {
     );
 
     store.setState({ userRecommendations: recommendations.simUsers });
+    store.setState({
+      userRecommendationsPearson: recommendations.simUsersPearson
+    });
     store.setState({ movieRecommendations: recommendations.simMovie });
+    store.setState({
+      movieRecommendationsPearson: recommendations.simMoviePearson
+    });
   },
   setResultTableState: async (store, state) => {
     store.setState({ resultTableState: state });

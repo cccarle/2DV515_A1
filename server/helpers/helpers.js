@@ -1,6 +1,6 @@
 const algorithms = require("../helpers/algorithms");
 
-/* 
+/*
 Returns an array with all users and the similarity-score against selectedUser
 */
 
@@ -8,6 +8,8 @@ exports.addSimValueForUsers = (selectedUser, users) => {
   users.forEach(user => {
     if (user.userID != selectedUser.userID)
       user.sim = parseFloat(algorithms.euclidean(selectedUser, user));
+    user.pearsonSim = parseFloat(algorithms.pearson(selectedUser, user)); // add
+    //  console.log(user);
   });
 
   return users;
@@ -23,6 +25,7 @@ exports.createUserObject = (userData, ratingData) => {
       userName: user.Name,
       userID: user.UserId,
       sim: 0,
+      pearsonSim: 0,
       moviesUserHasRated: getRatingsFromUser(user.UserId, ratingData)
     };
   });
@@ -49,6 +52,26 @@ const getTotalWsForMovie = (element, moviesWithWSScore) => {
     let totalWS = prev + cur.ws;
     return parseFloat(totalWS.toFixed(4));
   }, 0);
+};
+
+/*
+ Return total WS-score for a movie
+ */
+
+const getTotalWsPearsonForMovie = (element, moviesWithWSScore) => {
+  let ratingsSortedByMoives = moviesWithWSScore.filter(
+    movie => movie.movieID == element.MovieId
+  );
+
+  return ratingsSortedByMoives.reduce(function(prev, cur) {
+    let totalWSPearson = prev + cur.wsPearson;
+    return roundUp(totalWSPearson, 2);
+  }, 0);
+};
+
+const roundUp = (num, precision) => {
+  precision = Math.pow(10, precision);
+  return Math.ceil(num * precision) / precision;
 };
 
 /*
@@ -81,7 +104,14 @@ exports.getTotalWSForMoviesUserHasNotSeen = (
       getWSForEveryMovieOnEveryUser(usersWithSim, moviesUserHasNotSeen)
     );
 
+    let sumPearson = getTotalWsPearsonForMovie(
+      movie,
+      getWSForEveryMovieOnEveryUser(usersWithSim, moviesUserHasNotSeen)
+    );
+
     movie.score = parseFloat(sum.toFixed(2));
+
+    movie.wsPearsonTotal = sumPearson;
   });
 };
 
@@ -104,8 +134,16 @@ const getWSForEveryMovieOnEveryUser = (usersWithSim, moviesUserHasNotSeen) => {
               (
                 parseFloat(movie.Rating) * parseFloat(user.sim.toFixed(2))
               ).toFixed(4)
-            )
+            ),
+            wsPearson: 0
           };
+
+          if (Math.sign(user.pearsonSim) != -1) {
+            moviee.wsPearson = roundUp(
+              parseFloat(movie.Rating) * user.pearsonSim,
+              2
+            );
+          }
 
           moviesWithWSScore.push(moviee);
         }
@@ -128,9 +166,13 @@ const checkWichUserThatHasRatedTheMovie = (movieID, users) => {
         let simUser = {
           userID: user.userID,
           userSim: user.sim,
+          userSimPearson: 0,
           movieID: movieID
         };
 
+        if (Math.sign(user.pearsonSim) != -1) {
+          simUser.userSimPearson = user.pearsonSim;
+        }
         moviesArray.push(simUser);
       }
     });
@@ -155,16 +197,20 @@ exports.sumTheMoviesSimFromUsersRatedTheMovie = (
     );
 
     let totalSimOfMovie = 0;
+    let totalSimPearsonOfMovie = 0;
 
     usersThatRatedTheMovie.forEach(user => {
       if (user.movieID == movie.MovieId) {
         totalSimOfMovie += user.userSim;
+        totalSimPearsonOfMovie += user.userSimPearson;
       }
     });
 
     movie.totalSimForUserThatSeenTheMovie = parseFloat(
       totalSimOfMovie.toFixed(2)
     );
+
+    movie.totalPearsonSim = roundUp(totalSimPearsonOfMovie, 2);
   });
 };
 
@@ -177,6 +223,11 @@ exports.divideTotalWSAndTotalSimForMovie = moviesUserHasNotSeen => {
   moviesUserHasNotSeen.forEach(movie => {
     movie.recommendationScore = parseFloat(
       (movie.score / movie.totalSimForUserThatSeenTheMovie).toFixed(2)
+    );
+
+    movie.recommendationScorePearson = roundUp(
+      movie.wsPearsonTotal / movie.totalPearsonSim,
+      2
     );
   });
 };

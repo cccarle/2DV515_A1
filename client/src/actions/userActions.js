@@ -30,6 +30,7 @@ export const getRecommendationsForUserRequest = async (
   return await axios
     .post(`${variabels.url}/users/${lowerCaseAlgo}`, params)
     .then(response => {
+      console.log(response.data.recommendations);
       return response.data.recommendations;
     })
     .catch(error => {
