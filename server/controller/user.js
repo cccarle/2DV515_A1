@@ -1,8 +1,8 @@
 const covert = require("../helpers/convertCSV");
 const helpers = require("../helpers/helpers");
-let usersCSVPath = "./datasets2/users.csv";
-let moviesCSVPath = "./datasets2/movies.csv";
-let ratingsCSVPath = "./datasets2/ratings.csv";
+let usersCSVPath = "./datasets/users.csv";
+let moviesCSVPath = "./datasets/movies.csv";
+let ratingsCSVPath = "./datasets/ratings.csv";
 
 exports.fetchUsers = async () => {
   return await covert.convertCSVTOJSON(usersCSVPath);
@@ -21,7 +21,7 @@ exports.fetchMovies = async () => {
  The list is sorted by the scores value and the list is returned with only top three matches
  */
 
-exports.findTopThreeMatchForUser = (
+exports.findRecommendationsByEuclidean = (
   userToMatch,
   userData,
   ratingData,
@@ -42,7 +42,18 @@ exports.findTopThreeMatchForUser = (
     usersWithSim
   );
 
-  console.log(moviesUserHasNotSeen);
+  helpers.divideTotalWSAndTotalSimForMovie(moviesUserHasNotSeen);
 
-  return [];
+  let recommendations = {
+    simUsers: helpers.getRecommendationsByDescendingOrder(
+      usersWithSim,
+      moviesUserHasNotSeen
+    ).usersWithSim,
+    simMovie: helpers.getRecommendationsByDescendingOrder(
+      usersWithSim,
+      moviesUserHasNotSeen
+    ).moviesUserHasNotSeen
+  };
+
+  return recommendations;
 };

@@ -121,7 +121,7 @@ Checks if a user has rated the movie, if they have return the users SIM, ID and 
  */
 
 const checkWichUserThatHasRatedTheMovie = (movieID, users) => {
-  let a = [];
+  let moviesArray = [];
   users.forEach(user => {
     user.moviesUserHasRated.forEach(element => {
       if (movieID == element.MovieId) {
@@ -131,12 +131,12 @@ const checkWichUserThatHasRatedTheMovie = (movieID, users) => {
           movieID: movieID
         };
 
-        a.push(simUser);
+        moviesArray.push(simUser);
       }
     });
   });
 
-  return a;
+  return moviesArray;
 };
 
 /*
@@ -166,4 +166,33 @@ exports.sumTheMoviesSimFromUsersRatedTheMovie = (
       totalSimOfMovie.toFixed(2)
     );
   });
+};
+
+/*
+Update the recommendationScore for movie.
+total WS score / total Sim from users seen the movie
+ */
+
+exports.divideTotalWSAndTotalSimForMovie = moviesUserHasNotSeen => {
+  moviesUserHasNotSeen.forEach(movie => {
+    movie.recommendationScore = parseFloat(
+      (movie.score / movie.totalSimForUserThatSeenTheMovie).toFixed(2)
+    );
+  });
+};
+
+/*
+Returns recommendations by Descending order
+ */
+
+exports.getRecommendationsByDescendingOrder = (
+  usersWithSim,
+  moviesUserHasNotSeen
+) => {
+  usersWithSim.sort((a, b) => parseFloat(a.sim) - parseFloat(b.sim)).reverse(); // sort by score value
+  moviesUserHasNotSeen
+    .sort((a, b) => a.recommendationScore - b.recommendationScore)
+    .reverse();
+
+  return { usersWithSim, moviesUserHasNotSeen };
 };

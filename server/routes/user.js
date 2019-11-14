@@ -37,7 +37,7 @@ module.exports = server => {
       let ratings = await userController.fetchRatings();
       let movies = await userController.fetchMovies();
 
-      let recommendations = await userController.findTopThreeMatchForUser(
+      let recommendations = await userController.findRecommendationsByEuclidean(
         UserID,
         users,
         ratings,

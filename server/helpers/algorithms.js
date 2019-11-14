@@ -24,5 +24,5 @@ exports.euclidean = (userA, userB, ratings) => {
 
   invertedScore = 1 / (1 + sim);
 
-  return invertedScore.toFixed(4);
+  return invertedScore.toFixed(2);
 };
