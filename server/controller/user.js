@@ -25,7 +25,8 @@ exports.findRecommendationsByEuclidean = (
   userToMatch,
   userData,
   ratingData,
-  moviesData
+  moviesData,
+  numberOfResults
 ) => {
   let users = helpers.createUserObject(userData, ratingData);
   let selectedUser = users[userToMatch];
@@ -47,12 +48,14 @@ exports.findRecommendationsByEuclidean = (
   let recommendations = {
     simUsers: helpers.getRecommendationsByDescendingOrder(
       usersWithSim,
-      moviesUserHasNotSeen
-    ).usersWithSim,
+      moviesUserHasNotSeen,
+      numberOfResults
+    ).resultOfUsers,
     simMovie: helpers.getRecommendationsByDescendingOrder(
       usersWithSim,
-      moviesUserHasNotSeen
-    ).moviesUserHasNotSeen
+      moviesUserHasNotSeen,
+      numberOfResults
+    ).resultOfMovies
   };
 
   return recommendations;

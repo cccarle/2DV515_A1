@@ -35,7 +35,7 @@ export default function ResultsTable() {
             </TableHead>
             <TableBody>
               {globalState.userRecommendations.map(row => (
-                <TableRow key={row.User}>
+                <TableRow key={row.userName}>
                   <TableCell component="th" scope="row">
                     {row.userName}
                   </TableCell>
@@ -47,7 +47,6 @@ export default function ResultsTable() {
         </Paper>
       );
     } else if (globalState.resultTableState === "movies") {
-      console.log(globalState.movieRecommendations);
       return (
         <Paper className={classes.root}>
           <Table className={classes.table} aria-label="simple table">

@@ -11,7 +11,8 @@ const initialState = {
   selectedAlgorithm: "",
   userRecommendations: [],
   movieRecommendations: [],
-  resultTableState: "users"
+  resultTableState: "users",
+  resultCount: 0
 };
 
 export const actions = {
@@ -25,16 +26,26 @@ export const actions = {
   selectAlgorithm: async (store, algorithm) => {
     store.setState({ selectedAlgorithm: algorithm });
   },
-  getRecommendationsForUser: async (store, selectedUser, selectAlgorithm) => {
+  getRecommendationsForUser: async (
+    store,
+    selectedUser,
+    selectAlgorithm,
+    resultCount
+  ) => {
     let recommendations = await getRecommendationsForUserRequest(
       selectedUser,
-      selectAlgorithm
+      selectAlgorithm,
+      resultCount
     );
+
     store.setState({ userRecommendations: recommendations.simUsers });
     store.setState({ movieRecommendations: recommendations.simMovie });
   },
   setResultTableState: async (store, state) => {
     store.setState({ resultTableState: state });
+  },
+  setResultCount: async (store, count) => {
+    store.setState({ resultCount: count });
   }
 };
 

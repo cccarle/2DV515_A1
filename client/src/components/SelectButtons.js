@@ -1,14 +1,14 @@
-import React from 'react'
-import { useGlobal, actions } from '../store/store'
-import { makeStyles } from '@material-ui/core/styles'
-import variabels from '../config/variables'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
+import React from "react";
+import { useGlobal, actions } from "../store/store";
+import { makeStyles } from "@material-ui/core/styles";
+import variabels from "../config/variables";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
   container: {
-    display: 'flex',
-    justifyContent: 'space-around',
+    display: "flex",
+    justifyContent: "space-around",
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2)
   },
@@ -16,21 +16,22 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1)
   }
-}))
+}));
 
 function SelectButtons() {
-  const [globalState, globalActions] = useGlobal()
-  const classes = useStyles()
+  const [globalState, globalActions] = useGlobal();
+  const classes = useStyles();
 
   function getRecommendations() {
     globalActions.getRecommendationsForUser(
       globalState.selectedUser,
-      globalState.selectedAlgorithm
-    )
+      globalState.selectedAlgorithm,
+      globalState.resultCount
+    );
   }
 
   function upDateTableState(state) {
-    globalActions.setResultTableState(state)
+    globalActions.setResultTableState(state);
   }
 
   return (
@@ -75,7 +76,7 @@ function SelectButtons() {
         </Button>
       </div>
     </div>
-  )
+  );
 }
 
-export default SelectButtons
+export default SelectButtons;

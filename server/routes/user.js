@@ -31,7 +31,7 @@ module.exports = server => {
 
   server.post(`/users/euclidean`, async (req, res, next) => {
     try {
-      const { UserID } = req.body;
+      const { UserID, numberOfResults } = req.body;
 
       let users = await userController.fetchUsers();
       let ratings = await userController.fetchRatings();
@@ -41,7 +41,8 @@ module.exports = server => {
         UserID,
         users,
         ratings,
-        movies
+        movies,
+        numberOfResults
       );
 
       res.send(200, {

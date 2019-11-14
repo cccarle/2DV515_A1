@@ -182,17 +182,23 @@ exports.divideTotalWSAndTotalSimForMovie = moviesUserHasNotSeen => {
 };
 
 /*
-Returns recommendations by Descending order
+Returns recommendations by Descending order and number of choosen result count
  */
 
 exports.getRecommendationsByDescendingOrder = (
   usersWithSim,
-  moviesUserHasNotSeen
+  moviesUserHasNotSeen,
+  count
 ) => {
-  usersWithSim.sort((a, b) => parseFloat(a.sim) - parseFloat(b.sim)).reverse(); // sort by score value
+  usersWithSim.sort((a, b) => parseFloat(a.sim) - parseFloat(b.sim)).reverse();
+
+  let resultOfUsers = usersWithSim.slice(0, count);
+
   moviesUserHasNotSeen
     .sort((a, b) => a.recommendationScore - b.recommendationScore)
     .reverse();
 
-  return { usersWithSim, moviesUserHasNotSeen };
+  let resultOfMovies = moviesUserHasNotSeen.slice(0, count);
+
+  return { resultOfUsers, resultOfMovies };
 };
