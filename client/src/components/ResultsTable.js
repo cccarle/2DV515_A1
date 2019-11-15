@@ -1,29 +1,29 @@
-import React from "react";
-import { useGlobal, actions } from "../store/store";
-import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import React from 'react'
+import { useGlobal, actions } from '../store/store'
+import { makeStyles } from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
 
 const useStyles = makeStyles({
   root: {
-    width: "100%",
-    overflowX: "auto"
+    width: '100%',
+    overflowX: 'auto'
   },
   table: {
     minWidth: 650
   }
-});
+})
 
 export default function ResultsTable() {
-  const [globalState, globalActions] = useGlobal();
-  const classes = useStyles();
+  const [globalState, globalActions] = useGlobal()
+  const classes = useStyles()
 
   function checkWhichAlgorithmForUser() {
-    if (globalState.selectedAlgorithm == "Euclidean") {
+    if (globalState.selectedAlgorithm == 'Euclidean') {
       return (
         <TableBody>
           {globalState.userRecommendationsEuclidean.map(row => (
@@ -36,8 +36,8 @@ export default function ResultsTable() {
             </TableRow>
           ))}
         </TableBody>
-      );
-    } else if (globalState.selectedAlgorithm == "Pearson") {
+      )
+    } else if (globalState.selectedAlgorithm == 'Pearson') {
       return (
         <TableBody>
           {globalState.userRecommendationsPearson.map(row => (
@@ -50,12 +50,12 @@ export default function ResultsTable() {
             </TableRow>
           ))}
         </TableBody>
-      );
+      )
     }
   }
 
   function checkWhichAlgorithmForMovies() {
-    if (globalState.selectedAlgorithm == "Euclidean") {
+    if (globalState.selectedAlgorithm == 'Euclidean') {
       return (
         <TableBody>
           {globalState.movieRecommendationsEuclidean.map(row => (
@@ -68,8 +68,8 @@ export default function ResultsTable() {
             </TableRow>
           ))}
         </TableBody>
-      );
-    } else if (globalState.selectedAlgorithm == "Pearson") {
+      )
+    } else if (globalState.selectedAlgorithm == 'Pearson') {
       return (
         <TableBody>
           {globalState.movieRecommendationsPearson.map(row => (
@@ -84,12 +84,12 @@ export default function ResultsTable() {
             </TableRow>
           ))}
         </TableBody>
-      );
+      )
     }
   }
 
   function whichTableToShow() {
-    if (globalState.resultTableState === "users") {
+    if (globalState.resultTableState === 'users') {
       return (
         <Paper className={classes.root}>
           <Table className={classes.table} aria-label="simple table">
@@ -103,8 +103,8 @@ export default function ResultsTable() {
             {checkWhichAlgorithmForUser()}
           </Table>
         </Paper>
-      );
-    } else if (globalState.resultTableState === "movies") {
+      )
+    } else if (globalState.resultTableState === 'movies') {
       return (
         <Paper className={classes.root}>
           <Table className={classes.table} aria-label="simple table">
@@ -118,8 +118,8 @@ export default function ResultsTable() {
             {checkWhichAlgorithmForMovies()}
           </Table>
         </Paper>
-      );
+      )
     }
   }
-  return <div> {whichTableToShow()} </div>;
+  return <div> {whichTableToShow()} </div>
 }

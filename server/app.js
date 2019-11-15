@@ -16,7 +16,7 @@ let cors = corsMiddleware({
 server.pre(cors.preflight)
 server.use(cors.actual)
 
-server.listen(PORT, () => {
+server.listen(process.env.PORT || 4000, () => {
   console.log('Successfully stared at localhost:' + PORT)
   require('./routes/root')(server)
   require('./routes/user')(server)

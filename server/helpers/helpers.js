@@ -198,7 +198,7 @@ const checkWichUserThatHasRatedTheMovie = (movieID, users) => {
 
 /*
 Sums the total sim from every user that has rated the movie.
-Updates the movies totalSimOfMovie
+Updates the movies totalSimOfMovie.
  */
 
 exports.sumTheMoviesSimFromUsersRatedTheMovie = (
@@ -231,7 +231,7 @@ exports.sumTheMoviesSimFromUsersRatedTheMovie = (
 
 /*
 Update the recommendationScore for movie.
-total WS score / total Sim from users seen the movie
+total WS score / total Sim from users seen the movie.
  */
 
 exports.divideTotalWSAndTotalSimForMovie = moviesUserHasNotSeen => {
@@ -248,7 +248,7 @@ exports.divideTotalWSAndTotalSimForMovie = moviesUserHasNotSeen => {
 }
 
 /*
-Returns recommendations by Descending order and number of choosen result count
+Returns recommendations by Descending order and number of choosen result count.
  */
 
 exports.getRecommendationsByDescendingOrderEuclidean = (
@@ -270,7 +270,7 @@ exports.getRecommendationsByDescendingOrderEuclidean = (
 }
 
 /*
-Returns recommendations by Descending order and number of choosen result count
+Returns recommendations by Descending order and number of choosen result count.
  */
 
 exports.getRecommendationsByDescendingOrderPearson = (

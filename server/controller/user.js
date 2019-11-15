@@ -68,5 +68,7 @@ exports.findRecommendations = (
     ).resultOfMoviesPearson
   }
 
+  console.log(recommendations)
+
   return recommendations
 }
