@@ -1,5 +1,5 @@
-const userController = require("../controller/user");
-const errors = require(`restify-errors`);
+const userController = require('../controller/user')
+const errors = require(`restify-errors`)
 
 module.exports = server => {
   /* 
@@ -10,82 +10,16 @@ module.exports = server => {
 
   server.get(`/users`, async (req, res, next) => {
     try {
-      let users = await userController.fetchUsers();
+      let users = await userController.fetchUsers()
 
       res.send(200, {
         message: `All Users`,
         users: users
-      });
+      })
 
-      next();
+      next()
     } catch (err) {
-      res.send(404, new errors.NotFoundError(err));
+      res.send(404, new errors.NotFoundError(err))
     }
-  });
-
-  /* 
-  @route   POST /users
-  @desc    Returns user-matches and movie-recommendations for a specific user by using euclidean.
-  @access  Public
-  */
-
-  server.post(`/users/euclidean`, async (req, res, next) => {
-    try {
-      const { UserID, numberOfResults } = req.body;
-
-      let users = await userController.fetchUsers();
-      let ratings = await userController.fetchRatings();
-      let movies = await userController.fetchMovies();
-
-      let recommendationsEuclidean = await userController.findRecommendations(
-        UserID,
-        users,
-        ratings,
-        movies,
-        numberOfResults
-      );
-
-      res.send(200, {
-        message: `user-matches and movie-recommendations for a ${users[UserID].Name} using euclidean`,
-        recommendations: recommendationsEuclidean
-      });
-
-      next();
-    } catch (err) {
-      res.send(404, new errors.NotFoundError(err));
-    }
-  });
-
-  /* 
-  @route   POST /users
-  @desc    Returns user-matches and movie-recommendations for a specific user by using pearson.
-  @access  Public
-  */
-
-  server.post(`/users/pearson`, async (req, res, next) => {
-    try {
-      const { UserID, numberOfResults } = req.body;
-
-      let users = await userController.fetchUsers();
-      let ratings = await userController.fetchRatings();
-      let movies = await userController.fetchMovies();
-
-      let recommendationsPearson = await userController.findRecommendations(
-        UserID,
-        users,
-        ratings,
-        movies,
-        numberOfResults
-      );
-
-      res.send(200, {
-        message: `user-matches and movie-recommendations for a user(name) using pearson`,
-        recommendations: recommendationsPearson
-      });
-
-      next();
-    } catch (err) {
-      res.send(404, new errors.NotFoundError(err));
-    }
-  });
-};
+  })
+}
