@@ -1,6 +1,6 @@
 const restify = require('restify')
 const server = restify.createServer()
-const PORT = 8080
+const PORT = 4000
 const corsMiddleware = require('restify-cors-middleware')
 
 // Middleware

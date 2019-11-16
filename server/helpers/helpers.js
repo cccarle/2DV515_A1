@@ -1,5 +1,10 @@
 const algorithms = require('../helpers/algorithms')
 
+exports.getURL = req => {
+  const url = req.isSecure() ? 'https' : 'https' + '://' + req.headers.host
+  return url
+}
+
 /*
 Find and remove the selected user from the usersarray.
 */

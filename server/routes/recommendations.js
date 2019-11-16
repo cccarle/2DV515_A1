@@ -24,14 +24,14 @@ module.exports = server => {
         numberOfResults
       )
 
-      res.send(200, {
+      res.json(200, {
         message: `user-matches and movie-recommendations for a ${users[UserID].Name} using euclidean`,
         recommendations: recommendationsEuclidean
       })
 
       next()
     } catch (err) {
-      res.send(404, new errors.NotFoundError(err))
+      res.json(404, new errors.NotFoundError(err))
     }
   })
 
@@ -57,14 +57,14 @@ module.exports = server => {
         numberOfResults
       )
 
-      res.send(200, {
+      res.json(200, {
         message: `user-matches and movie-recommendations for a ${users[UserID].Name} using pearson`,
         recommendations: recommendationsPearson
       })
 
       next()
     } catch (err) {
-      res.send(404, new errors.NotFoundError(err))
+      res.json(404, new errors.NotFoundError(err))
     }
   })
 }

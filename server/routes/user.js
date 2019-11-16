@@ -12,14 +12,14 @@ module.exports = server => {
     try {
       let users = await userController.fetchUsers()
 
-      res.send(200, {
+      res.json(200, {
         message: `All Users`,
         users: users
       })
 
       next()
     } catch (err) {
-      res.send(404, new errors.NotFoundError(err))
+      res.json(404, new errors.NotFoundError(err))
     }
   })
 }
